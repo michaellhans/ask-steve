@@ -18,7 +18,7 @@ export const saveUserName = async ({ id, state, name }) => {
   const user = await User.findOneAndUpdate(
     { user: id },
     { name, state },
-    { new: true, upsert: true }
+    { new: true }
   );
   return user;
 };
@@ -27,7 +27,7 @@ export const saveUserBirthDate = async ({ id, state, birthDate }) => {
   const user = await User.findOneAndUpdate(
     { user: id },
     { birthDate, state },
-    { new: true, upsert: true }
+    { new: true }
   );
   return user;
 };

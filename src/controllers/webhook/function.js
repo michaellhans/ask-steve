@@ -20,7 +20,7 @@ export async function handleMessage(sender_psid, received_message) {
     let userData = await getUser(sender_psid);
     const bot_state = userData ? userData.state : state.START;
     if (userData) {
-      await saveUser(sender_psid, state)
+      await saveUser({id: sender_psid, state})
     }
 
     console.log(received_message.text);
@@ -34,13 +34,13 @@ export async function handleMessage(sender_psid, received_message) {
       result = `${reply.GREETINGS} ${received_message.text} ${reply.GOT_NAME} ${question.ASK_BIRTH_DATE}`;
       nextState = state.GOT_BIRTH;
       // Update the name of the user
-      await saveUserName(sender_psid, nextState, received_message.text)
+      await saveUserName({id: sender_psid, state: nextState, name: received_message.text})
 
     } else if (bot_state == state.GOT_BIRTH) {
       result = `${reply.GOT_DATE} ${received_message.text} ${question.ASK_PREDICT}`;
       nextState = state.GOT_RESPONSE;
       // Update user data with birth date
-      await saveUserBirthDate(sender_psid, nextState, received_message.text)
+      await saveUserBirthDate({id: sender_psid, state: nextState, birthDate: received_message.text})
 
     } else if (bot_state == state.GOT_RESPONSE) {
       const normalizeText = received_message.text.toLowerCase();
@@ -56,7 +56,7 @@ export async function handleMessage(sender_psid, received_message) {
       }
 
       nextState = state.START;
-      await saveUser(sender_psid, nextState);
+      await saveUser({id: sender_psid, state: nextState});
     }
   }
 
