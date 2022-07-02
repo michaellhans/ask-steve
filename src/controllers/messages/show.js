@@ -1,4 +1,3 @@
-import Message from "../../models/message.js";
 import { getMessageByUser } from "./function.js";
 
 // Show all messages from user with certain id

@@ -1,4 +1,3 @@
-import Message from "../../models/message.js";
 import { createMessage } from "./function.js";
 
 // Create new message and store it into database

@@ -30,10 +30,6 @@ export async function handleMessage(sender_psid, received_message) {
       bot_state = userData.state;
     }
 
-    console.log(received_message.text);
-    console.log(bot_state);
-    console.log(userData);
-
     // Add the message into the database
     const cleanMessage = {
       id: received_message.mid,
@@ -86,15 +82,16 @@ export async function handleMessage(sender_psid, received_message) {
           result = `${reply.GOT_RESPONSE} ${days} ${reply.DAYS}`;
         }
         nextState = state.START;
+        await saveUser({ id: sender_psid, state: nextState });
 
       } else if (answer.NEGATIVE.includes(normalizeText)) {
         result = reply.GOODBYE;
         nextState = state.START;
+        await saveUser({ id: sender_psid, state: nextState });
 
       } else {
         result = reply.INVALID_ANSWER;
       }
-      await saveUser({ id: sender_psid, state: nextState });
     }
   }
 

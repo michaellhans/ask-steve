@@ -1,4 +1,3 @@
-import Message from "../../models/message.js";
 import { getAllMessage } from "./function.js";
 
 // Get all messages

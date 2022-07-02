@@ -1,7 +1,12 @@
 import User from "../../models/user.js";
 
+export const getAllUser = async () => {
+  const user = await User.find();
+  return user;
+}
+
 export const getUser = async (id) => {
-  const user = await User.findOne({ id });
+  const user = await User.findOne({ user: id });
   return user;
 };
 
@@ -11,7 +16,6 @@ export const saveUser = async ({ id, state }) => {
     { state },
     { new: true, upsert: true }
   );
-  console.log("aaa");
   return user;
 };
 
@@ -32,3 +36,7 @@ export const saveUserBirthDate = async ({ id, state, birthDate }) => {
   );
   return user;
 };
+
+export const deleteUser = async (id) => {
+  await User.deleteMany({user: id});
+}
