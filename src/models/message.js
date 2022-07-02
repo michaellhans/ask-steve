@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 // Create schema for message
 const MessageSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        required: true,
+    },
     user: {
         type: Number,
         required: true,

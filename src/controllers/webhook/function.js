@@ -2,16 +2,21 @@ import dotenv from "dotenv";
 import axios from "axios";
 import state from "../../const/state.js";
 import { answer, question, reply } from "../../const/conversation.js";
-import { getUser, saveUser, saveUserBirthDate, saveUserName } from "../users/function.js";
-import { nextBirthdayInDays } from "../../utils/birthday.js";
+import {
+  getUser,
+  saveUser,
+  saveUserBirthDate,
+  saveUserName,
+} from "../users/function.js";
+import { birthDateText, isBirthDayToday, isValidDate, nextBirthdayInDays } from "../../utils/birthday.js";
 import { createMessage } from "../messages/function.js";
 
 dotenv.config();
 
 // Handles messages events
 export async function handleMessage(sender_psid, received_message) {
-    let result = '';
-    let nextState = null;
+  let result = "";
+  let nextState = null;
 
   // Check if the message contains text
   if (received_message.text) {
@@ -20,7 +25,7 @@ export async function handleMessage(sender_psid, received_message) {
     let userData = await getUser(sender_psid);
     let bot_state = state.START;
     if (!userData) {
-      userData = await saveUser({id: sender_psid, state: bot_state})
+      userData = await saveUser({ id: sender_psid, state: bot_state });
     } else {
       bot_state = userData.state;
     }
@@ -29,79 +34,87 @@ export async function handleMessage(sender_psid, received_message) {
     console.log(bot_state);
     console.log(userData);
 
+    // Add the message into the database
+    const cleanMessage = {
+      id: received_message.mid,
+      user: sender_psid,
+      message: received_message.text,
+      timestamp: Date(),
+    };
+    await createMessage(cleanMessage);
+
     if (bot_state == state.START) {
       result = question.OPENING;
       nextState = state.GOT_NAME;
-      await saveUser({id: sender_psid, state: nextState})
+      await saveUser({ id: sender_psid, state: nextState });
 
     } else if (bot_state == state.GOT_NAME) {
       result = `${reply.GREETINGS} ${received_message.text} ${reply.GOT_NAME} ${question.ASK_BIRTH_DATE}`;
       nextState = state.GOT_BIRTH;
       // Update the name of the user
-      await saveUserName({id: sender_psid, state: nextState, name: received_message.text})
+      await saveUserName({
+        id: sender_psid,
+        state: nextState,
+        name: received_message.text,
+      });
 
     } else if (bot_state == state.GOT_BIRTH) {
-      result = `${reply.GOT_DATE} ${received_message.text} ${question.ASK_PREDICT}`;
-      nextState = state.GOT_RESPONSE;
-      // Update user data with birth date
-      await saveUserBirthDate({id: sender_psid, state: nextState, birthDate: received_message.text})
+      if (isValidDate(received_message.text)){
+        result = `${reply.GOT_DATE} ${birthDateText(received_message.text)} ${
+          question.ASK_PREDICT
+        }`;
+        nextState = state.GOT_RESPONSE;
+        // Update user data with birth date
+        await saveUserBirthDate({
+          id: sender_psid,
+          state: nextState,
+          birthDate: received_message.text,
+        });
+
+      } else {
+        result = reply.INVALID_DATE;
+      }
 
     } else if (bot_state == state.GOT_RESPONSE) {
       const normalizeText = received_message.text.toLowerCase();
       if (answer.POSITIVE.includes(normalizeText)) {
-        const days = nextBirthdayInDays(userData.birthDate); 
-        result = `${reply.GOT_RESPONSE} ${days} ${reply.DAYS}`;
-        
+        if (isBirthDayToday(userData.birthDate)){
+          result = reply.BIRTHDAY;
+
+        } else {
+          const days = nextBirthdayInDays(userData.birthDate);
+          result = `${reply.GOT_RESPONSE} ${days} ${reply.DAYS}`;
+        }
+        nextState = state.START;
+
       } else if (answer.NEGATIVE.includes(normalizeText)) {
         result = reply.GOODBYE;
-        
-      } else {
-        result = reply.GOODBYE;
-      }
+        nextState = state.START;
 
-      nextState = state.START;
-      await saveUser({id: sender_psid, state: nextState});
+      } else {
+        result = reply.INVALID_ANSWER;
+      }
+      await saveUser({ id: sender_psid, state: nextState });
     }
   }
 
-  // Add the message into the database
-  const response = {text: result};
-  const cleanMessage = {
-    "user": sender_psid,
-    "message": response.text,
-    "timestamp": Date(),
-  }
-  await createMessage(cleanMessage);
-
   // Sends the response message
-  callSendAPI(sender_psid, response);
-}
+  if (nextState == state.GOT_RESPONSE){
+    const quickReplies = [];
+    answer.QUICK_REPLY.forEach((quickReply) => {
+      quickReplies.push({
+        content_type: 'text',
+        title: quickReply,
+        payload: quickReply,
+      });
+    });
+    const response = { text: result, quick_replies: answer.QUICK_REPLY };
+    callSendAPI(sender_psid, response);
 
-// Handles messaging_postbacks events
-export async function handlePostback(sender_psid, received_postback) {
-  // Get the payload for the postback
-  let payload = received_postback.payload;
-  let result = "";
-
-  // Set the response based on the postback payload
-  if (payload === "yes") {
-    result = `${reply.GOT_RESPONSE} 2 ${reply.DAYS}`;
-  } else if (payload === "no") {
-    result = reply.GOODBYE;
+  } else {
+    const response = { text: result};
+    callSendAPI(sender_psid, response);
   }
-  
-  // Send the message to acknowledge the postback
-  // Add the message into the database
-  const response = {text: result};
-  const cleanMessage = {
-    "user": sender_psid,
-    "message": response.text,
-    "timestamp": Date(),
-  }
-  await createMessage(cleanMessage);
-
-  // Sends the response message
-  callSendAPI(sender_psid, response);
 }
 
 // Sends response messages via the Send API

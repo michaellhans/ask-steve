@@ -28,6 +28,10 @@ export const nextBirthdayInDays = (birthDate) => {
   return Math.ceil(difference / millisecondsInADay);
 };
 
-export const birthDateInfo = (birthDate) => {
+export const birthDateText = (birthDate) => {
   return birthDate.toLocaleDateString();
+};
+
+export const isValidDate = (birthDate) => {
+  return birthDate.match(/^\d{4}-\d{2}-\d{2}$/) !== null;
 };

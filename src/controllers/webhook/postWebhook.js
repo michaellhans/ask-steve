@@ -16,13 +16,7 @@ export const postWebhook = async (req, res, next) => {
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
 
-        // Check if the event is a message or postback and
-        // pass the event to the appropriate handler function
-        if (webhook_event.message) {
-          await handleMessage(sender_psid, webhook_event.message);
-        } else if (webhook_event.postback) {
-          await handlePostback(sender_psid, webhook_event.postback);
-        }
+        await handleMessage(sender_psid, webhook_event.message);
       };
 
       // Return a '200 OK' response to all events
