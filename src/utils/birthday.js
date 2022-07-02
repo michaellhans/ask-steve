@@ -30,7 +30,7 @@ export const nextBirthdayInDays = (birthDate) => {
 };
 
 export const birthDateText = (birthDate) => {
-  return Date(birthDate).toLocaleDateString();
+  return new Date(birthDate).toLocaleDateString();
 };
 
 export const isValidDate = (birthDate) => {
