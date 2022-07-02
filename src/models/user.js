@@ -7,12 +7,10 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
     name: {
-        type: String,
-        required: true,
+        type: String
     },
     birthDate: {
-        type: Date,
-        required: true,
+        type: Date
     },
     state: {
         type: Number,
