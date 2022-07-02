@@ -48,7 +48,9 @@ describe('FUNCTIONAL Message Model Testing', () => {
 
   it('should return a single message with certain ID', async () => {
     const message = await getMessageByID(newMessage.id);
-    expect(message).to.be.an('array');
-    expect(message[0].id).to.equals(newMessage.id);
+    expect(message.id).to.equals(newMessage.id);
+    expect(message.user).to.equals(newMessage.user);
+    expect(message.message).to.equals(newMessage.message);
+    expect(message).to.have.property('timestamp');
   });
 });

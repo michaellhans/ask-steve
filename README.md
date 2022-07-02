@@ -3,8 +3,10 @@
 ## Description
 Shadow Bot is the simple messenger bot that can:
 1. Ask your first name
-2. Ask your birth date
-3. Ask if you want to know how many days until your next birthday
+2. Ask your birth date (using YYYY-MM-DD format)
+3. Ask if you want to know how many days until your next birthday. You can response it with:
+  - Positive answer: ["yes", "yeah", "sure", "yup", "why not", "yaaa", "iyes"]
+  - Negative answer: ["no", "nah", "nope", "tidak", "no thanks"]
 
 ## Getting Started
 To test the Facebook Messenger Bot, you can directly jump into this link and have a chit-chat with the bot.

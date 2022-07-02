@@ -14,7 +14,7 @@ export const getAllMessage = async () => {
 
 // Get a single message by ID
 export const getMessageByID = async (id) => {
-  const message = await Message.find({id: id}, {_id :0, __v:0}).sort({timestamp: 'desc'});
+  const message = await Message.findOne({id: id}, {_id :0, __v:0}).sort({timestamp: 'desc'});
   return message;
 }
 

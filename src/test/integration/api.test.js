@@ -49,11 +49,13 @@ describe('INTEGRATION REST API Testing', () => {
     expect(res.body).to.be.an('array');
   });
 
-  it('GET /messages/:id should return all messages related to user', async () => {
-    const res = await request(app).get(`/messages/${newUser.user}`);
+  it('GET /messages/:id should return a single message with ID', async () => {
+    const res = await request(app).get(`/messages/${newMessage.id}`);
     expect(res.status).to.equal(200);
-    expect(res.body).to.be.an('array');
-    expect(res.body[0].user).to.equals(newUser.user);
+    expect(res.body.id).to.equals(newMessage.id);
+    expect(res.body.user).to.equals(newMessage.user);
+    expect(res.body.message).to.equals(newMessage.message);
+    expect(res.body).to.have.property('timestamp');
   });
 
   it('GET /summary should return summary of all messages', async () => {
