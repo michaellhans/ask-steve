@@ -1,4 +1,4 @@
-import { handleMessage, handlePostback } from "./function.js";
+import { handleMessage } from "./function.js";
 
 // Post Webhook
 export const postWebhook = async (req, res, next) => {
