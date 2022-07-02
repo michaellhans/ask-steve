@@ -6,7 +6,7 @@ import router from "./routes/index.js";
 
 dotenv.config();
 
-let app = express();
+export const app = express();
 
 // Config the MongoDB
 connectDB();

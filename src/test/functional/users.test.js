@@ -53,4 +53,10 @@ describe('FUNCTIONAL User Model Testing', () => {
     expect(user.birthDate.toLocaleDateString('en-CA'),).to.equals(newUser.birthDate);
   });
 
+  it('should return the updated user on state only', async () => {
+    const user = await saveUser({id: newUser.user, state: 0})
+    expect(user.user).to.equals(newUser.user);
+    expect(user.state).to.equals(0);
+  });
+
 });
