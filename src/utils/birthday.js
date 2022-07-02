@@ -1,8 +1,9 @@
 export const isBirthDayToday = (birthDate) => {
   const today = new Date();
+  const birthDateTemp = new Date(birthDate);
   return (
-    birthDate.getMonth() === today.getMonth() &&
-    birthDate.getDate() === today.getDate()
+    birthDateTemp.getMonth() === today.getMonth() &&
+    birthDateTemp.getDate() === today.getDate()
   );
 };
 
@@ -29,7 +30,7 @@ export const nextBirthdayInDays = (birthDate) => {
 };
 
 export const birthDateText = (birthDate) => {
-  return birthDate.toLocaleDateString();
+  return Date(birthDate).toLocaleDateString();
 };
 
 export const isValidDate = (birthDate) => {
