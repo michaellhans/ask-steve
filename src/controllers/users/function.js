@@ -11,6 +11,7 @@ export const saveUser = async ({ id, state }) => {
     { state },
     { new: true, upsert: true }
   );
+  console.log("aaa");
   return user;
 };
 

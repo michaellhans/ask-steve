@@ -19,16 +19,18 @@ export async function handleMessage(sender_psid, received_message) {
     // CAUTION: CHANGE THIS PART
     let userData = await getUser(sender_psid);
     const bot_state = userData ? userData.state : state.START;
-    if (userData) {
-      await saveUser({id: sender_psid, state})
+    if (userData == null) {
+      userData = await saveUser({id: sender_psid, state})
     }
 
     console.log(received_message.text);
     console.log(bot_state);
+    console.log(userData);
 
     if (bot_state == state.START) {
       result = question.OPENING;
       nextState = state.GOT_NAME;
+      await saveUser({id: sender_psid, nextState})
 
     } else if (bot_state == state.GOT_NAME) {
       result = `${reply.GREETINGS} ${received_message.text} ${reply.GOT_NAME} ${question.ASK_BIRTH_DATE}`;
