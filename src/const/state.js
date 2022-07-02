@@ -1,3 +1,6 @@
+// Chatbot State
+// Every user has different chatbot state
+
 const state = {
     START: 0,
     GOT_NAME: 1,

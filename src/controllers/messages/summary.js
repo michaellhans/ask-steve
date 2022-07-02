@@ -1,9 +1,10 @@
 import { getAllMessage } from "./function.js";
 import { getAllUser } from "../users/function.js";
 
-// Get all messages
+// Get the summary of all messages
 export const summary = async (req, res, next) => {
   try {
+    // Summary need all messages and users data
     const messages = await getAllMessage();
     const users = await getAllUser();
 
@@ -20,7 +21,6 @@ export const summary = async (req, res, next) => {
     res.send(summary);
 
   } catch (err) {
-    console.log(err);
     return next(err);
   }
 };

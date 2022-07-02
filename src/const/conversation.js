@@ -1,15 +1,18 @@
+// Expected Answer from the User
 export const answer = {
     POSITIVE: ["yes", "yeah", "sure", "yup", "why not", "yaaa", "iyes"],
     NEGATIVE: ["no", "nah", "nope", "tidak", "no thanks"],
     QUICK_REPLY: ["yes", "no"],
 }
 
+// Chatbot Question to the User
 export const question = {
     OPENING: "Hi, my name is Shadow Bot, may I know your first name?",
     ASK_BIRTH_DATE: "Now can you tell me your birth date to me?",
     ASK_PREDICT: "Do you wanted to know how many days until your next birthday?",
 }
 
+// Chatbot Reply to the User
 export const reply = {
     GREETINGS: "Hello",
     GOT_NAME: "Nice to meet you!",
@@ -19,5 +22,5 @@ export const reply = {
     BIRTHDAY: "Wow! Happy birthday to you! God bless you :)",
     GOODBYE: "Goodbye 👋",
     INVALID_DATE: "Sorry, please input the valid date such as YYYY-MM-DD",
-    INVALID_ANSWER: "Sorry, I don't understand what you are talking about",
+    INVALID_ANSWER: "Sorry, I don't understand what you are talking about. Please answer it with Yes / No",
 }

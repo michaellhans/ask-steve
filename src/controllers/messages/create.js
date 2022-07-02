@@ -7,7 +7,6 @@ export const create = async (req, res, next) => {
     res.send(message);
 
   } catch (err) {
-    console.log(err);
     return next(err);
   }
 };

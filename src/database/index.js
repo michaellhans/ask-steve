@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// Connect to the Database
 const connectDB = async () => {
   await mongoose.connect(process.env.MONGODB_URI, {
     useUnifiedTopology: true,

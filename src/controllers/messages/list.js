@@ -7,7 +7,6 @@ export const list = async (req, res, next) => {
     res.send(messages);
 
   } catch (err) {
-    console.log(err);
     return next(err);
   }
 };

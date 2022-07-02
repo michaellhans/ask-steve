@@ -1,3 +1,6 @@
+// Utils for birthday calculation
+
+// Check if today is the birthday
 export const isBirthDayToday = (birthDate) => {
   const today = new Date();
   const birthDateTemp = new Date(birthDate);
@@ -7,6 +10,7 @@ export const isBirthDayToday = (birthDate) => {
   );
 };
 
+// Check if the birthday in this year has passed
 export const hasBirthDayPassed = (birthDate) => {
   const today = new Date();
   const birthDateTemp = new Date(birthDate);
@@ -14,6 +18,7 @@ export const hasBirthDayPassed = (birthDate) => {
   return birthDateTemp.getTime() < today.getTime();
 };
 
+// Calculate how many days into the next birthday
 export const nextBirthdayInDays = (birthDate) => {
   const today = new Date();
   const nextBirthDate = new Date(birthDate);
@@ -29,10 +34,12 @@ export const nextBirthdayInDays = (birthDate) => {
   return Math.ceil(difference / millisecondsInADay);
 };
 
+// Convert from Date into String
 export const birthDateText = (birthDate) => {
   return new Date(birthDate).toLocaleDateString();
 };
 
+// Check if the date text is valid
 export const isValidDate = (birthDate) => {
   return birthDate.match(/^\d{4}-\d{2}-\d{2}$/) !== null;
 };
