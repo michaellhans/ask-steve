@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { createMessage, getAllMessage, getMessageByUser, deleteMessageByUser } from '../../controllers/messages/function.js';
+import { createMessage, getAllMessage, getMessageByID, deleteMessageByUser } from '../../controllers/messages/function.js';
 import { summary } from '../../controllers/messages/summary.js';
 import connectDB from '../../database/index.js';
 import dotenv from 'dotenv';
@@ -46,9 +46,9 @@ describe('FUNCTIONAL Message Model Testing', () => {
     expect(message).to.be.an('array');
   });
 
-  it('should return all messages related to user', async () => {
-    const message = await getMessageByUser(newUser.user);
+  it('should return a single message with certain ID', async () => {
+    const message = await getMessageByID(newMessage.id);
     expect(message).to.be.an('array');
-    expect(message[0].user).to.equals(newUser.user);
+    expect(message[0].id).to.equals(newMessage.id);
   });
 });

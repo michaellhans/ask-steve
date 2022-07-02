@@ -12,9 +12,9 @@ export const getAllMessage = async () => {
   return message;
 }
 
-// Get all messages from the certain user ID
-export const getMessageByUser = async (id) => {
-  const message = await Message.find({user: id}, {_id :0, __v:0}).sort({timestamp: 'desc'});
+// Get a single message by ID
+export const getMessageByID = async (id) => {
+  const message = await Message.find({id: id}, {_id :0, __v:0}).sort({timestamp: 'desc'});
   return message;
 }
 
