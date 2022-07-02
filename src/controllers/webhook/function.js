@@ -108,7 +108,7 @@ export async function handleMessage(sender_psid, received_message) {
         payload: quickReply,
       });
     });
-    const response = { text: result, quick_replies: answer.QUICK_REPLY };
+    const response = { text: result, quick_replies: quickReplies };
     callSendAPI(sender_psid, response);
 
   } else {
