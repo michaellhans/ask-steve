@@ -20,7 +20,7 @@ export async function handleMessage(sender_psid, received_message) {
     let userData = await getUser(sender_psid);
     const bot_state = userData ? userData.state : state.START;
     if (!userData) {
-      userData = await saveUser({id: sender_psid, state})
+      userData = await saveUser({id: sender_psid, bot_state})
     }
 
     console.log(received_message.text);
