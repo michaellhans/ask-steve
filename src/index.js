@@ -1,37 +1,26 @@
-require("dotenv").config();
+import express from "express";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import connectDB from "./database/index.js";
+import router from "./routes/index.js";
 
-const mongoose = require('mongoose');
-const express = require("express");
-const viewEngine = require("./config/viewEngine");
-const initWebRoute = require("./routes/web");
-const bodyParser = require("body-parser");
-// const connectDB = require("./database/index");
+dotenv.config();
 
-let app = express()
-
-// Config view engine
-viewEngine(app);
+let app = express();
 
 // Config the MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-    }).then(() => {
-        console.log("Successfully connect to database!");
-    }).catch(err => {
-        console.log(process.env.MONGODB_URI);
-        console.log("Can't connect to the database");
-        console.log(err);
-    });
+connectDB();
 
 // Use body parser to post data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
-// Init all web routes
-initWebRoute(app);
+app.use(router);
 
 let port = process.env.PORT || 8080;
+
+app.get('/', (_, res) => {
+    res.send('Hello, World!');
+});
 
 app.listen(port, () => {
     console.log('App is running at the port ' + port);
