@@ -5,8 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "test": "npm run test"
+    "start": "nodemon src/index.js"
   },
   "keywords": [
     "bot"
