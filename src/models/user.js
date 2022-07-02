@@ -1,13 +1,17 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Create schema for user
-const User = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     user: {
-        type: Number,
+        type: String,
         required: true,
     },
     name: {
         type: String,
+        required: true,
+    },
+    birthDate: {
+        type: Date,
         required: true,
     },
     state: {
@@ -15,5 +19,10 @@ const User = new mongoose.Schema({
         required: true,
     }
 })
+
+const User = mongoose.model(
+    "User",
+    UserSchema
+);
 
 export default User;

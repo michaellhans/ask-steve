@@ -1,4 +1,4 @@
-import { handleMessage, handlePostback } from "./handler.js";
+import { handleMessage, handlePostback } from "./function.js";
 
 // Post Webhook
 export const postWebhook = async (req, res, next) => {
@@ -9,7 +9,7 @@ export const postWebhook = async (req, res, next) => {
     // Check the webhook event is from a Page subscription
     if (body.object === "page") {
       // Iterate over each entry - there may be multiple if batched
-      body.entry.forEach(function (entry) {
+      for (const entry of body.entry) {
         // Gets the body of the webhook event
         let webhook_event = entry.messaging[0];
 
@@ -19,11 +19,11 @@ export const postWebhook = async (req, res, next) => {
         // Check if the event is a message or postback and
         // pass the event to the appropriate handler function
         if (webhook_event.message) {
-          handleMessage(sender_psid, webhook_event.message);
+          await handleMessage(sender_psid, webhook_event.message);
         } else if (webhook_event.postback) {
-          handlePostback(sender_psid, webhook_event.postback);
+          await handlePostback(sender_psid, webhook_event.postback);
         }
-      });
+      };
 
       // Return a '200 OK' response to all events
       res.status(200).send("EVENT_RECEIVED");

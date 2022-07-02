@@ -1,9 +1,10 @@
 import Message from "../../models/message.js";
+import { getAllMessage } from "./function.js";
 
 // Get all messages
 export const list = async (req, res, next) => {
   try {
-    const messages = await Message.find().sort({timestamp: 'desc'});
+    const messages = await getAllMessage();
     res.send(messages);
 
   } catch (err) {
