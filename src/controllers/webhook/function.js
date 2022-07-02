@@ -18,9 +18,11 @@ export async function handleMessage(sender_psid, received_message) {
     // Receive the bot state from the database
     // CAUTION: CHANGE THIS PART
     let userData = await getUser(sender_psid);
-    const bot_state = (userData !== undefined || userData !== null) ? userData.state : state.START;
+    let bot_state = state.START;
     if (!userData) {
       userData = await saveUser({id: sender_psid, bot_state})
+    } else {
+      bot_state = userData.state;
     }
 
     console.log(received_message.text);
