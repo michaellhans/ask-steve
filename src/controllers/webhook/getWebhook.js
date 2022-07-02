@@ -6,7 +6,7 @@ dotenv.config();
 export const getWebhook = async (req, res, next) => {
   try {
     // Your verify token. Should be a random string.
-    let VERIFY_TOKEN = process.env.MY_VERIFY_FB_TOKEN;
+    let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
     // Parse the query params
     let mode = req.query["hub.mode"];
