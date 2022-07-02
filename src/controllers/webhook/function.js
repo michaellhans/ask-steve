@@ -20,7 +20,7 @@ export async function handleMessage(sender_psid, received_message) {
     let userData = await getUser(sender_psid);
     let bot_state = state.START;
     if (!userData) {
-      userData = await saveUser({id: sender_psid, bot_state})
+      userData = await saveUser({id: sender_psid, state: bot_state})
     } else {
       bot_state = userData.state;
     }
@@ -32,7 +32,7 @@ export async function handleMessage(sender_psid, received_message) {
     if (bot_state == state.START) {
       result = question.OPENING;
       nextState = state.GOT_NAME;
-      await saveUser({id: sender_psid, nextState})
+      await saveUser({id: sender_psid, state: nextState})
 
     } else if (bot_state == state.GOT_NAME) {
       result = `${reply.GREETINGS} ${received_message.text} ${reply.GOT_NAME} ${question.ASK_BIRTH_DATE}`;
